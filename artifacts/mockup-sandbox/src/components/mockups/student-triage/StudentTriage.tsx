@@ -24,6 +24,113 @@ const initialCases: Case[] = [
   { id:'ST-2043', name:'Noah Clarke', year:'Year 7', form:'7F', manager:'Amira Patel', status:'On Track', stage:2, deadline:'Fri, 10:00', concern:'Peer disagreement during lunchtime', context:'A disagreement in the playground was de-escalated with staff support. Both pupils requested space.', voice:'“I want to sort it out, just not in front of everybody.”', reporter:'Mrs R. Lewis · Pastoral', reported:'Tuesday, 13:10', decision:'Awaiting decision', rationale:'', actions:[], acknowledgements:{School:false,Student:false,Family:false}, checklist:{'Receiving teacher briefed':false,'First-day welcome arranged':false,'Check-in schedule agreed':false,'Student confirms readiness':false}, history:['Reflective report submitted · Tuesday, 13:10'] },
   { id:'ST-2039', name:'Ella Morgan', year:'Year 11', form:'11D', manager:'Marcus Reed', status:'Due Soon', stage:5, deadline:'Tomorrow, 09:00', concern:'Agreed study support after missed coursework', context:'Ella has found recent coursework deadlines difficult alongside family commitments.', voice:'“It helps when the work is broken into smaller parts.”', reporter:'Mr J. Price · Design technology', reported:'Monday, 09:34', decision:'Progress to intervention', rationale:'A stepped coursework plan with brief weekly check-ins.', actions:[{id:1,text:'Break coursework into weekly milestones',owner:'Mr J. Price',due:'Tomorrow',done:false},{id:2,text:'Arrange weekly progress check-in',owner:'Marcus Reed',due:'Friday',done:false}], acknowledgements:{School:true,Student:true,Family:false}, checklist:{'Receiving teacher briefed':false,'First-day welcome arranged':false,'Check-in schedule agreed':false,'Student confirms readiness':false}, history:['Agreement shared for acknowledgement · Tuesday, 12:10','Intervention plan drafted · Monday, 15:20','Reflective report submitted · Monday, 09:34'] },
 ];
+
+// Fictional training examples only. These are not statements about real pupils,
+// verified handovers, referrals, family contact or safeguarding decisions.
+const demoConcernDetails: Record<string, {
+  incidentAt: string; location: string; present: string; observed: string;
+  response: string; otherPeople: string; previous: string; professionalViews: string;
+  dslResponse: string; risk: string; rationale: string; furtherAction: string;
+}> = {
+  'ST-2048': {
+    incidentAt: '2026-09-24T09:05',
+    location: 'Science classroom and corridor',
+    present: 'Ms E. Foster; classmates were in the room.',
+    observed: 'Following an announced timetable change, Maya left the science room. A member of staff saw her waiting in the corridor. She returned after a brief conversation and a short break.',
+    response: 'Ms Foster spoke with Maya in a quiet space, asked what she needed for the next lesson and offered a written outline of the changed timetable.',
+    otherPeople: 'Ms E. Foster witnessed the departure and return. No account from classmates is included.',
+    previous: 'No earlier incident is described in this fictional example.',
+    professionalViews: 'Amira Patel (Link Manager) suggested a predictable transition and check-in plan; this is a suggested response, not a diagnosis.',
+    dslResponse: 'Illustrative review of the reporter’s factual account and Maya’s words. The named Link Manager was identified for a follow-up conversation.',
+    risk: 'The fictional account does not describe an immediate safety concern. A real DSL would assess this independently and use the school’s current process.',
+    rationale: 'For this example, a supportive transition plan and an opportunity to hear Maya’s preferences are indicated; no external referral is depicted.',
+    furtherAction: 'Amira Patel to discuss a check-in and written timetable with Maya; review after the next science lesson. Demo plan only.',
+  },
+  'ST-2047': {
+    incidentAt: '2026-09-23T13:20',
+    location: 'Afternoon registration',
+    present: 'Mr A. Shah, form tutor. Other attendees are not identified in the scenario.',
+    observed: 'Leo was not present at afternoon registration on two occasions this week. The form tutor noted that Leo’s home transport arrangements had recently changed.',
+    response: 'Mr Shah asked Leo privately whether there was anything making afternoon registration difficult and recorded his reply without further interpretation.',
+    otherPeople: 'No other children or adults are named as directly involved in this fictional account.',
+    previous: 'The same type of absence occurred twice in the example week; no longer history is provided.',
+    professionalViews: 'Daniel Hughes (Link Manager) should confirm the registration and transport arrangements before drawing conclusions.',
+    dslResponse: 'Illustrative preliminary review only. The registration pattern and transport concern were noted for clarification with the Link Manager.',
+    risk: 'Impact on Leo’s safe journey home has not been assessed in this mock scenario. The breached case deadline does not itself constitute a safeguarding finding.',
+    rationale: 'More information is needed before a response or referral decision can be described. No conclusion is inferred from absence alone.',
+    furtherAction: 'Daniel Hughes to check the transport concern and registration times; DSL to review the findings through the school’s actual process.',
+  },
+  'ST-2045': {
+    incidentAt: '2026-09-21T14:10',
+    location: 'English classroom / supported learning transition',
+    present: 'Ms K. James. No additional people are identified in the fictional scenario.',
+    observed: 'Aisha was preparing to return to English after a period of supported learning. She asked about work she had missed before returning to the class.',
+    response: 'Ms James listened to Aisha’s question and offered to identify the missed work and arrange a first-lesson check-in.',
+    otherPeople: 'No other child or adult is reported to have witnessed a specific incident.',
+    previous: 'A period of supported learning is mentioned; its reason and dates are not included in this example.',
+    professionalViews: 'Sophie Bennett (Link Manager) proposed a paced return and a named point of contact, recorded here as a plan rather than an observed fact.',
+    dslResponse: 'Illustrative review of a support and reintegration record. No separate safeguarding disclosure is depicted.',
+    risk: 'No immediate safety information is supplied in the fictional source. A real reviewer would check the wider record and current plan.',
+    rationale: 'Continue a supported return and capture Aisha’s own priorities. The mock record does not establish grounds for a referral.',
+    furtherAction: 'Sophie Bennett and Ms James to agree a catch-up pack and first-lesson welcome with Aisha; review at the next check-in.',
+  },
+  'ST-2043': {
+    incidentAt: '2026-09-22T12:45',
+    location: 'Playground at lunchtime',
+    present: 'Mrs R. Lewis; two pupils involved in the disagreement. The other pupil is not named in this mock record.',
+    observed: 'Two pupils disagreed during lunch. Mrs Lewis intervened, and the pupils separated with staff support. Both requested some space.',
+    response: 'Mrs Lewis checked with each pupil separately, gave them space and recorded Noah’s words without asking leading questions.',
+    otherPeople: 'Another pupil was involved; their own account would require a separate record and is not reproduced here.',
+    previous: 'No previous similar concern is provided in this fictional example.',
+    professionalViews: 'Amira Patel (Link Manager) suggested a private restorative conversation only if both pupils are ready.',
+    dslResponse: 'Illustrative initial review of the lunchtime report. A separate account from the other pupil is not available in this prototype.',
+    risk: 'The information shown is insufficient to determine wider risk; no injury or threat is described in the source scenario.',
+    rationale: 'Gather each pupil’s account without treating one as a substitute for the other; decide next steps after reviewing the complete picture.',
+    furtherAction: 'Amira Patel to arrange separate check-ins and consider whether a restorative conversation is appropriate. Demo action only.',
+  },
+  'ST-2039': {
+    incidentAt: '2026-09-21T09:15',
+    location: 'Design technology lesson',
+    present: 'Mr J. Price. No other person is specifically identified in this example.',
+    observed: 'Mr Price noted that Ella had not completed a coursework milestone. Ella spoke about finding deadlines difficult alongside commitments at home.',
+    response: 'Mr Price asked what would help her manage the next milestone and offered to break the remaining work into smaller steps.',
+    otherPeople: 'No other children or adults are identified as involved.',
+    previous: 'A missed coursework milestone is described; no wider pattern is evidenced in this fictional record.',
+    professionalViews: 'Marcus Reed (Link Manager) proposed weekly check-ins, stated as a support option rather than a conclusion about Ella’s circumstances.',
+    dslResponse: 'Illustrative review of an educational support concern. No safeguarding disclosure about home circumstances is assumed from Ella’s statement.',
+    risk: 'The example does not provide information to assess an immediate risk. If Ella discloses more, staff would follow the school’s safeguarding route.',
+    rationale: 'Support coursework planning and invite Ella to share what help would be useful; do not infer concerns beyond what she said.',
+    furtherAction: 'Mr Price to agree weekly milestones with Ella; Marcus Reed to offer a private progress check-in. Demo plan only.',
+  },
+};
+
+function mockDocumentation(c: Case): Pick<Case, 'record' | 'dslAction'> {
+  const example = demoConcernDetails[c.id];
+  if (!example) return {};
+  const reporterParts = c.reporter.split(' · ');
+  const completedAt = example.incidentAt.slice(0, 11) + '10:45';
+  const record: ConcernRecordData = {
+    studentName: c.name, year: c.year, form: c.form, dateOfBirth: '', gender: '',
+    incidentAt: example.incidentAt, completedAt, reporter: reporterParts[0],
+    position: reporterParts[1] ?? 'Staff member', visitorContact: '',
+    location: example.location, present: example.present, observed: example.observed,
+    childWords: c.voice, response: example.response, injuries: '', otherPeople: example.otherPeople,
+    previous: example.previous, professionalViews: example.professionalViews,
+    safeguardingLead: 'Demo DSL — handover unverified', handoffAt: completedAt, manager: c.manager,
+  };
+  const dslAction: DslActionData = {
+    dsl: 'Demo DSL — illustrative entry, not a verified person',
+    completedAt: example.incidentAt.slice(0, 11) + '11:25',
+    response: example.dslResponse, risk: example.risk,
+    parentContact: 'Not recorded in this fictional scenario', parentResponse: '',
+    parentNotInformedReason: '', childFeedback: '',
+    requestSupport: 'Not decided', agency: '', rationale: example.rationale,
+    referralConsent: 'Not applicable — no referral depicted', consentReason: '',
+    reporterFeedback: '', staffFeedback: '', furtherAction: example.furtherAction,
+  };
+  return { record, dslAction };
+}
+
 const stages = ['Link manager','Reporting','Alert status','Triage','Intervention','Agreement','Reintegration'];
 const tabs: Tab[] = ['Overview','Report','Triage','Intervention','Agreement','Reintegration','History'];
 const stageTabs: Tab[] = ['Overview','Report','Overview','Triage','Intervention','Agreement','Reintegration'];
@@ -32,7 +139,11 @@ const parties = ['School','Student','Family'];
 const alertClass = (status: Alert) => status === 'On Track' ? 'track' : status === 'Due Soon' ? 'soon' : 'breached';
 
 export function StudentTriage() {
-  const [cases, setCases] = useState<Case[]>(() => initialCases.map(c => c.id === 'ST-2048' ? { ...c, passport: demoPassport } : c));
+  const [cases, setCases] = useState<Case[]>(() => initialCases.map(c => ({
+    ...c,
+    ...(c.id === 'ST-2048' ? { passport: demoPassport } : {}),
+    ...mockDocumentation(c),
+  })));
   const [selectedId, setSelectedId] = useState('ST-2048');
   const [tab, setTab] = useState<Tab>(() => new URLSearchParams(window.location.search).get('show') === 'report' ? 'Report' : 'Overview');
   const [query, setQuery] = useState('');
@@ -135,7 +246,10 @@ export function StudentTriage() {
                   <div className="triage-two-col"><div className="triage-info-box"><p className="triage-box-eyebrow">The student perspective</p><h3>What we have heard</h3><p>{selected.voice}</p><div className="triage-box-footer"><span>From reflective report</span><button className="triage-text-button" onClick={()=>setTab('Report')}>Read report <ArrowRight size={11} style={{display:'inline'}}/></button></div></div><div className="triage-info-box important"><p className="triage-box-eyebrow">Next meaningful step</p><h3>{selected.stage<=3?'Record a multidisciplinary decision':selected.stage===4?'Agree the support actions':selected.stage===5?'Gather acknowledgements':'Prepare a supported return'}</h3><p>{selected.stage<=3?'Review context and record a rationale before moving forward.':selected.stage===4?'Give each action a person and a date so the plan can be followed through.':selected.stage===5?'School, student and family should each understand the shared plan.':'Brief the receiving teacher and agree a check-in rhythm with the student.'}</p><div className="triage-box-footer"><span>{selected.decision}</span><button className="triage-text-button" onClick={()=>setTab(selected.stage<=3?'Triage':selected.stage===4?'Intervention':selected.stage===5?'Agreement':'Reintegration')}>Open stage <ArrowRight size={11} style={{display:'inline'}}/></button></div></div></div>
                   <div className="triage-mini-heading"><h3>Recent case activity</h3><button className="triage-text-button" onClick={()=>setTab('History')}>View history</button></div><div className="triage-activity">{selected.history.slice(0,2).map((h,i)=><div className="triage-activity-item" key={i}><strong>{h.split(' · ')[0]}</strong><small>{h.split(' · ')[1]}</small></div>)}</div>
                 </>}
-                {tab === 'Report' && <RecordOfConcern key={selected.id} record={selected.record} dslAction={selected.dslAction} legacy={{studentName:selected.name,year:selected.year,form:selected.form,concern:selected.concern,context:selected.context,voice:selected.voice,reporter:selected.reporter,reported:selected.reported,manager:selected.manager}} onSummary={()=>setModal('summary')} onSaveDsl={dslAction=>{updateCase({dslAction},'DSL action example added locally · Just now');setToast('Fictional DSL action added locally. No referral or notification was sent.');}}/>}
+                {tab === 'Report' && <>
+                  <div className="triage-notice" style={{ marginBottom: 18 }}>Fictional example documentation for {selected.name}. The quoted student words are part of the mock scenario; handover, DSL review and follow-up are illustrative entries only, not verified events. No real notification, referral or parent contact has occurred.</div>
+                  <RecordOfConcern key={selected.id} record={selected.record} dslAction={selected.dslAction} legacy={{studentName:selected.name,year:selected.year,form:selected.form,concern:selected.concern,context:selected.context,voice:selected.voice,reporter:selected.reporter,reported:selected.reported,manager:selected.manager}} onSummary={()=>setModal('summary')} onSaveDsl={dslAction=>{updateCase({dslAction},'DSL action example added locally · Just now');setToast('Fictional DSL action added locally. No referral or notification was sent.');}}/>
+                </>}
                 {tab === 'Triage' && <><h3 className="triage-section-title">Multidisciplinary triage</h3><p className="triage-section-sub">Record a considered decision and the reason behind it.</p>{selected.status==='Breached' && <div className="triage-notice" style={{marginBottom:13}}>Deadline passed in this fictional case. A real system would surface an escalation and notify the relevant people; this prototype sends nothing.</div>}{selected.rationale && <div className="triage-info-box" style={{marginBottom:15}}><p className="triage-box-eyebrow">Recorded decision</p><h3>{selected.decision}</h3><p>{selected.rationale}</p></div>}<div className="triage-decision-grid">{[['Progress to intervention','Build a support plan with named actions'],['Request more information','Pause for a fuller picture'],['Refer elsewhere','Connect to a specialist team'],['Resolve at triage','Record why further action is not needed']].map(([title,sub])=><button key={title} className={decision===title?'active':''} onClick={()=>setDecision(title)}>{title}<small>{sub}</small></button>)}</div><label className="triage-field">Decision rationale<textarea value={rationale} onChange={e=>setRationale(e.target.value)} placeholder="What context informed this decision?"/></label><div style={{display:'flex',justifyContent:'flex-end',marginTop:12}}><button className="triage-primary" onClick={recordDecision}>Record decision <ArrowRight size={13}/></button></div></>}
                 {tab === 'Intervention' && <><h3 className="triage-section-title">A plan of support</h3><p className="triage-section-sub">Small, concrete actions — each with an owner and a date.</p>{selected.actions.length ? <div className="triage-list">{selected.actions.map(a=><div className="triage-list-row" key={a.id}><div><strong style={{textDecoration:a.done?'line-through':'none',opacity:a.done?.65:1}}>{a.text}</strong><small>{a.owner} · Due {a.due}</small></div><button className="triage-secondary" onClick={()=>updateCase({actions:selected.actions.map(item=>item.id===a.id?{...item,done:!item.done}:item)},`Action ${a.done?'reopened':'completed'} · Just now`)}>{a.done?<><Check size={12}/> Done</>:'Mark done'}</button></div>)}</div>:<div className="triage-empty" style={{background:'#f5f5ed',borderRadius:8}}><ClipboardList size={22}/><strong>No actions defined yet</strong><p>Start with one achievable step and give it a named owner.</p></div>}{showActionForm ? <div className="triage-inline-form"><label className="triage-field">Support action<input value={newAction.text} onChange={e=>setNewAction({...newAction,text:e.target.value})} placeholder="e.g. Agree a calm morning arrival"/></label><div className="triage-field-grid"><label className="triage-field">Owner<input value={newAction.owner} onChange={e=>setNewAction({...newAction,owner:e.target.value})} placeholder="Staff member's name"/></label><label className="triage-field">Due<input value={newAction.due} onChange={e=>setNewAction({...newAction,due:e.target.value})} placeholder="e.g. Thursday"/></label></div><div className="triage-form-actions"><button className="triage-secondary" onClick={()=>setShowActionForm(false)}>Cancel</button><button className="triage-primary" onClick={addAction}>Add action</button></div></div>:<button className="triage-secondary" style={{marginTop:14}} onClick={()=>setShowActionForm(true)}><Plus size={13}/> Add support action</button>}<div className="triage-callout" style={{marginTop:17,marginBottom:0}}><Info size={14}/> An intervention plan needs at least one action before an agreement can be marked complete.</div></>}
                 {tab === 'Agreement' && <><h3 className="triage-section-title">A shared agreement</h3><p className="triage-section-sub">Understanding and commitment from the school, student and family.</p><div className="triage-notice" style={{marginBottom:15}}>Demo acknowledgements only. These are not signatures, legally binding agreements or messages to families.</div><div className="triage-info-box" style={{marginBottom:15}}><p className="triage-box-eyebrow">Agreement · draft version 1</p><h3>What we are agreeing to do</h3><p>{selected.actions.length ? selected.actions.map(a=>a.text).join(' · ') : 'A support plan has not been defined yet. Add an action before gathering acknowledgements.'}</p></div><div className="triage-list">{parties.map(p=><div className="triage-list-row" key={p}><div><strong>{p}</strong><small>{selected.acknowledgements[p]?'Marked as acknowledged in this prototype':'Awaiting prototype acknowledgement'}</small></div><button className="triage-secondary" disabled={!selected.actions.length} onClick={()=>acknowledge(p)}>{selected.acknowledgements[p]?<><Check size={12}/> Acknowledged</>:'Mark acknowledged'}</button></div>)}</div><p style={{color:'#72817b',fontSize:10,marginTop:12}}>{Object.values(selected.acknowledgements).filter(Boolean).length} of 3 acknowledgements marked. All three are needed before the return can be confirmed.</p></>}
