@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, BookOpen, CalendarDays, Check, ClipboardList, Clock3, FileText, Filter, HeartHandshake, Info, LayoutList, Plus, Search, ShieldCheck, UserRound, UsersRound, X } from 'lucide-react';
 import './StudentTriage.css';
+import { SafeguardingHelp } from './_SafeguardingHelp';
 import { CommunicationPassport, demoPassport, type Passport } from './_CommunicationPassport';
 import { ConcernForm, RecordOfConcern, type ConcernRecordData, type DslActionData } from './ConcernRecord';
+import { AttendanceMapping } from './AttendanceMapping';
 
 type Alert = 'On Track' | 'Due Soon' | 'Breached';
-type Tab = 'Overview' | 'Report' | 'Triage' | 'Intervention' | 'Agreement' | 'Reintegration' | 'History';
+type Tab = 'Overview' | 'Attendance' | 'Report' | 'Triage' | 'Intervention' | 'Agreement' | 'Reintegration' | 'History';
 type Action = { id: number; text: string; owner: string; due: string; done: boolean };
 type Case = {
   passport?: Passport;
@@ -132,7 +134,7 @@ function mockDocumentation(c: Case): Pick<Case, 'record' | 'dslAction'> {
 }
 
 const stages = ['Link manager','Reporting','Alert status','Triage','Intervention','Agreement','Reintegration'];
-const tabs: Tab[] = ['Overview','Report','Triage','Intervention','Agreement','Reintegration','History'];
+const tabs: Tab[] = ['Overview','Attendance','Report','Triage','Intervention','Agreement','Reintegration','History'];
 const stageTabs: Tab[] = ['Overview','Report','Overview','Triage','Intervention','Agreement','Reintegration'];
 const checklistLabels = ['Receiving teacher briefed','First-day welcome arranged','Check-in schedule agreed','Student confirms readiness'];
 const parties = ['School','Student','Family'];
@@ -249,16 +251,25 @@ export function StudentTriage() {
               <div className="triage-detail-head">
                 <div className="triage-detail-top"><div><p className="triage-eyebrow" style={{marginBottom:5}}>CASE {selected.id} / {selected.year}</p><h2>{selected.name}</h2><p className="triage-case-meta">{selected.form} · {selected.concern}</p></div><div className="triage-detail-actions"><button className="triage-secondary" onClick={()=>{setNewManager(selected.manager);setModal('manager');}}><UserRound size={13}/> Reassign</button><button className="triage-secondary" onClick={()=>setModal('summary')}><FileText size={13}/> Case summary</button></div></div>
                 <div className="triage-detail-status"><span className={`triage-badge ${alertClass(selected.status)}`}><span className="triage-dot"/>{selected.status}</span><span><strong>Next deadline</strong> · {selected.deadline}</span><span className="triage-separator"/><span><strong>Link Manager</strong> · {selected.manager}</span>{selected.closed && <span className="triage-badge track">Reintegrated</span>}</div>
-                <button className="triage-secondary" style={{ marginTop: 12 }} onClick={()=>setTab('Overview')}><BookOpen size={14}/>{selected.passport ? 'Communication Passport available' : 'Communication Passport · not recorded'}</button>
+                <div style={{display:'flex',gap:8,flexWrap:'wrap',marginTop:12}}>
+                  <button className="triage-secondary" onClick={()=>setTab('Overview')}><BookOpen size={14}/>{selected.passport ? 'Communication Passport available' : 'Communication Passport · not recorded'}</button>
+                  <button className="triage-secondary" onClick={()=>setTab('Attendance')}><CalendarDays size={14}/> Attendance mapping</button>
+                </div>
               </div>
               <div className="triage-tabs" role="tablist">{tabs.map(t=><button role="tab" aria-selected={tab===t} key={t} className={tab===t?'active':''} onClick={()=>setTab(t)}>{t}</button>)}</div>
               <div className="triage-tab-content">
                 {tab === 'Overview' && <>
                   <CommunicationPassport key={selected.id} passport={selected.passport} manager={selected.manager}/>
+                  <AttendanceMapping caseId={selected.id} studentName={selected.name} onExplore={()=>setTab('Attendance')}/>
                   <h3 className="triage-section-title">A pathway back to belonging</h3><p className="triage-section-sub">Seven connected stages. Select a stage to see what has happened and what comes next.</p>
                   <div className="triage-pathway">{stages.map((s,i)=><button key={s} className={`triage-step ${i+1<selected.stage?'done':''} ${i+1===selected.stage?'current':''}`} onClick={()=>setTab(stageTabs[i])}><span className="triage-step-number">{i+1<selected.stage?'✓':String(i+1).padStart(2,'0')}</span><span className="triage-step-label">{s}</span></button>)}</div>
                   <div className="triage-two-col"><div className="triage-info-box"><p className="triage-box-eyebrow">The student perspective</p><h3>What we have heard</h3><p>{selected.voice}</p><div className="triage-box-footer"><span>From reflective report</span><button className="triage-text-button" onClick={()=>setTab('Report')}>Read report <ArrowRight size={11} style={{display:'inline'}}/></button></div></div><div className="triage-info-box important"><p className="triage-box-eyebrow">Next meaningful step</p><h3>{selected.stage<=3?'Record a multidisciplinary decision':selected.stage===4?'Agree the support actions':selected.stage===5?'Gather acknowledgements':'Prepare a supported return'}</h3><p>{selected.stage<=3?'Review context and record a rationale before moving forward.':selected.stage===4?'Give each action a person and a date so the plan can be followed through.':selected.stage===5?'School, student and family should each understand the shared plan.':'Brief the receiving teacher and agree a check-in rhythm with the student.'}</p><div className="triage-box-footer"><span>{selected.decision}</span><button className="triage-text-button" onClick={()=>setTab(selected.stage<=3?'Triage':selected.stage===4?'Intervention':selected.stage===5?'Agreement':'Reintegration')}>Open stage <ArrowRight size={11} style={{display:'inline'}}/></button></div></div></div>
                   <div className="triage-mini-heading"><h3>Recent case activity</h3><button className="triage-text-button" onClick={()=>setTab('History')}>View history</button></div><div className="triage-activity">{selected.history.slice(0,2).map((h,i)=><div className="triage-activity-item" key={i}><strong>{h.split(' · ')[0]}</strong><small>{h.split(' · ')[1]}</small></div>)}</div>
+                </>}
+                {tab === 'Attendance' && <>
+                  <h3 className="triage-section-title">Attendance in context</h3>
+                  <p className="triage-section-sub">A starting point for a conversation, not a label or a conclusion about a pupil.</p>
+                  <AttendanceMapping caseId={selected.id} studentName={selected.name} expanded/>
                 </>}
                 {tab === 'Report' && <>
                   <div className="triage-notice" style={{ marginBottom: 18 }}>Fictional example documentation for {selected.name}. The quoted student words are part of the mock scenario; handover, DSL review and follow-up are illustrative entries only, not verified events. No real notification, referral or parent contact has occurred.</div>
@@ -282,5 +293,6 @@ export function StudentTriage() {
       {modal==='summary' && <><div className="triage-modal-body"><div className="triage-notice">On-screen text preview only. Not an exported report, official record or shareable document.</div><div className="triage-info-box"><p className="triage-box-eyebrow">{selected.id} · {selected.year} · {selected.form}</p><h3>{selected.name}</h3><p>Link Manager: {selected.manager}<br/>Reported by: {selected.reporter} · {selected.reported}<br/>Deadline: {selected.deadline} ({selected.status})</p></div><div className="triage-info-box"><p className="triage-box-eyebrow">Context and response</p><h3>{selected.concern}</h3><p>{selected.context}<br/><br/>Student voice: {selected.voice}<br/><br/>Triage: {selected.decision}{selected.rationale?` — ${selected.rationale}`:''}<br/>Support actions: {selected.actions.length ? selected.actions.map(a=>a.text).join('; ') : 'Not yet defined'}</p></div></div><div className="triage-modal-foot"><button className="triage-primary" onClick={()=>setModal(null)}>Done</button></div></>}
     </div></div>}
     {toast && <div className="triage-toast" role="status">{toast}</div>}
+    <SafeguardingHelp/>
   </div>;
 }
