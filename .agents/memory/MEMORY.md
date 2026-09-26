@@ -1,0 +1,1 @@
+- [Triage safety boundary](triage-safety-boundary.md) — graduation is for fictional-data evaluation until secure access and operational safeguarding routes are implemented and reviewed.

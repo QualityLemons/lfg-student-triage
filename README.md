@@ -1,3 +1,11 @@
+# LFG Student Triage (standalone browser demo)
+
+The web app in `artifacts/student-triage` is a fictional, standalone React/Vite demonstration of the approved student-triage workflow. It needs no login, API server or database. From the workspace root, use `pnpm --filter @workspace/student-triage typecheck` to check types, or run the web artifact through the normal project workflow. For focused persistence checks, run `cd artifacts/student-triage && node --experimental-strip-types --test src/components/student-triage/case-storage.test.mjs` (Node 22+).
+
+**Do not enter real student data.** The sample names, records, attendance marks, handovers, DSL actions and acknowledgements are fictional. Recording an item does not contact anyone, authenticate a user, confirm a handover or send a referral or notification. The safeguarding help panel has no configured school DSL phone/email; use the school's actual safeguarding procedures and contact list, or UK emergency services in immediate danger.
+
+Edits are kept in this browser's `localStorage` only, under a versioned schema. They are not encrypted, backed up, shared between devices, or suitable for official records; anyone with access to the same browser profile may access them. Browser clearing/private browsing/storage restrictions can erase or block edits. Damaged or incompatible saved state is displayed as an error and is not silently replaced. Use the explicit **Reset sample data** confirmation to discard local changes (including damaged state). Other tabs on the same origin receive storage updates; writes check their last-seen revision and block stale edits, though browser storage is not a transactional multi-user database. Case and tab can be linked with `?case=ST-2048&show=Attendance`. Downloaded text summaries remain on the device and should not be mistaken for official records.
+
 # LFG Student Triage
 
 An interactive design prototype for supporting students from an initial concern through triage, intervention and a supported return to the classroom.

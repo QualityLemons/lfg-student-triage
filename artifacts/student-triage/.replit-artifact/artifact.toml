@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "LFG Student Triage"
+description = "Student support casework app graduated from the approved LFG mock-up, with browser-local fictional case records, attendance context, communication guidance and safeguarding help."
+version = "1.0.0"
+id = "artifacts/student-triage"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20346
+
+[services.development]
+run = "pnpm --filter @workspace/student-triage run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/student-triage", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/student-triage/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20346"
+BASE_PATH = "/"
