@@ -159,6 +159,13 @@
 .triage-modal-body { display:grid; gap:15px; padding:20px 24px; }
 .triage-modal-foot { padding:15px 24px 20px; border-top:1px solid var(--line); display:flex; justify-content:flex-end; gap:8px; }
 .triage-notice { padding:10px 12px; background:#f8f0df; border:1px solid #e9dbc0; border-radius:7px; color:#806740; font-size:10px; line-height:1.5; }
+.triage-guidance { display:grid; grid-template-columns:25px minmax(0,1fr); gap:10px; margin:0 0 16px; padding:13px 14px; border:1px solid #d9e5db; border-radius:8px; background:#f0f5ef; color:#3e5f54; }
+.triage-guidance-mark { width:21px; height:21px; display:grid; place-items:center; border-radius:50%; background:#dbe9dc; color:#35625a; font-family:'Instrument Serif',serif; font-size:15px; font-weight:700; }
+.triage-guidance-body { min-width:0; }
+.triage-guidance-body > p:not(.triage-guidance-title) { margin:0; font-size:11px; line-height:1.6; color:#4e655d; }
+.triage-guidance-title { margin:1px 0 4px !important; font-size:11px; font-weight:700; color:#2e514b; }
+.triage-guidance-body a { display:inline-block; margin-top:7px; color:#285b55; font-size:10px; font-weight:600; text-decoration:underline; text-underline-offset:2px; }
+.triage-guidance-body a:hover { color:#183e39; }
 .triage-toast { position:fixed; z-index:120; right:24px; bottom:24px; background:#254e49; color:#fbfaf2; border-radius:8px; padding:12px 16px; box-shadow:0 12px 30px #15312d33; font-size:12px; max-width:340px; }
 @media (max-width: 1120px) { .triage-shell { grid-template-columns: 66px minmax(0,1fr); } .triage-sidebar { padding:23px 10px; align-items:center; } .triage-brand { padding:0; } .triage-brand div:last-child, .triage-side-label, .triage-nav button span, .triage-nav button .nav-copy, .triage-side-note, .triage-profile div:last-child { display:none; } .triage-nav { width:100%; } .triage-nav button { justify-content:center; padding:12px 0; } .triage-profile { padding:15px 0 0; } .triage-workspace { grid-template-columns: minmax(260px,.85fr) minmax(460px,1.4fr); } }
 @media (max-width: 900px) { .triage-workspace { grid-template-columns:1fr; } .triage-content { padding:24px 20px 40px; } .triage-stats { grid-template-columns:repeat(2,1fr); } .triage-case-list { max-height:290px; overflow:auto; } }
