@@ -1,0 +1,139 @@
+# Product Requirements Document: Student Triage & Intervention Pathway
+
+## 1. Overview
+
+This system manages a student's journey from initial concern through resolution and return to the classroom. It links the people responsible for a student (Link Managers), captures behavioural evidence (Reporting), escalates based on deadlines and agreements (Alert Status), routes cases for review (Triage), drives a structured response (Student Intervention Pathway), formalizes commitments between parties (Contractual Agreement), and closes the loop when the student re-enters the classroom (Return & Reintegration).
+
+**Problem statement:** Schools currently lack a single, trackable pathway connecting behavioural reporting to intervention and reintegration, causing dropped follow-ups, missed SLA deadlines, and no auditable record of agreements or outcomes.
+
+**Goal:** Provide an end-to-end, auditable workflow that takes a student from a reported incident to a documented, agreed intervention and back into the classroom — with no step able to silently stall.
+
+## 2. Goals & Success Metrics
+
+| Goal | Metric |
+|---|---|
+| No case goes untracked | 100% of reports produce a case with an owner (Link Manager) |
+| SLAs are met | % of Alert Status deadlines met vs. breached |
+| Faster triage | Median time from report submission to triage decision |
+| Interventions are agreed, not imposed | % of Contractual Agreements signed by all named parties |
+| Students successfully return | % of students reintegrated without repeat escalation within 30/60/90 days |
+
+## 3. Personas
+
+- **Link Manager** — the named adult owning a student's case end-to-end; coordinates between reporters, triage, and the student/family Teacher Learning Responsibility (TLR - Example SendCo).
+- **Reporter** (e.g., teacher, staff) — submits behavioural reports.
+- **Triage Reviewer** — assesses incoming alerts/cases and decides the intervention pathway.
+- **Student / Family** — party to the contractual agreement and subject of the pathway.
+- **Classroom Teacher (receiving)** — accountable for reintegration once the student returns.
+- **Admin** — configures SLAs, roles, and templates.
+
+## 4. Pathway Stages
+
+Each stage below is a functional module. They form a linear pipeline; a case record carries state through all of them.
+
+### 4.1 Link Managers
+**Purpose:** Every student has a named, responsible manager before anything else happens.
+
+- Assign one Link Manager per student (or per case), with reassignment history.
+- Link Manager is the default owner/notifiable party for all downstream stages.
+- Support one-to-many: a Link Manager can hold multiple active student cases; surface a caseload view.
+
+**Acceptance criteria**
+- A case cannot be created without a Link Manager assigned.
+- Reassigning a Link Manager notifies both outgoing and incoming manager and is logged.
+
+### 4.2 Reporting (Reflective Behavioural Report & Report Generation)
+**Purpose:** Capture what happened, structured enough to drive triage and later analysis.
+
+- Structured incident/behaviour report form (reflective — captures context, not just the incident) linked to a student and reporter.
+- Auto-associates report with the student's current Link Manager.
+- System-generated report/summary output (e.g., PDF or shareable record) for use in meetings and agreements.
+- Reports are timestamped and immutable once submitted (amendments create a new version, not an overwrite).
+
+**Acceptance criteria**
+- Every report is linked to exactly one student and one case.
+- A generated report document can be produced on demand from stored data.
+
+### 4.3 Alert Status (Deadline Establishment & Service Level Agreement)
+**Purpose:** Turn a report into a time-bound obligation so nothing stalls silently.
+
+- On report submission (or triage entry), system establishes an SLA deadline based on severity/category rules.
+- Alert states: e.g., `On Track`, `Due Soon`, `Breached`.
+- Automated reminders to Link Manager (and escalation contact) as deadlines approach/pass.
+- Configurable SLA rules per case type/severity (admin-managed).
+
+**Acceptance criteria**
+- Every case has exactly one active deadline at a time.
+- Breach of SLA triggers a visible escalation flag and notification.
+
+### 4.4 Triage
+**Purpose:** A Multi Disciplinary Team of, key personal and potential 3rd party involvement to assess the case and decides the next step.
+
+- Triage queue showing cases by alert status/priority.
+- Triage decision options: escalate to intervention, close as resolved, request more information, refer elsewhere.
+- Decision and rationale recorded against the case.
+
+**Acceptance criteria**
+- Every case reaching Alert Status enters the triage queue automatically.
+- A triage decision is required to progress the case; case cannot silently sit past its SLA without a flag.
+
+### 4.5 Student Intervention Pathway (Escalation & Mitigation Strategy)
+**Purpose:** Define and track the concrete plan of support/consequence for the student.
+
+- Selection or authoring of an intervention/mitigation plan (from templates or bespoke).
+- Track escalation level (e.g., tiered response) and mitigation actions with owners and due dates.
+- Progress tracking against the plan (task/checklist style).
+
+**Acceptance criteria**
+- A case cannot move to Contractual Agreement without a defined intervention plan.
+- Each mitigation action has an owner and a status.
+
+### 4.6 Contractual Agreement
+**Purpose:** Formalize the intervention as a mutual, signed-off agreement.
+
+- Generate an agreement document from the intervention plan, listing obligations for each party (school, student, family).
+- Digital sign-off / acknowledgement per named party, with timestamp.
+- Agreement is versioned; renegotiation creates a new version linked to the case history.
+
+**Acceptance criteria**
+- Agreement cannot be marked active until all named parties have signed/acknowledged.
+- Unsigned agreements are visible as outstanding actions to the Link Manager.
+
+### 4.7 Return & Reintegration with Classroom Environment
+**Purpose:** Close the loop — confirm the student is back and supported, not just "case closed."
+
+- Reintegration checklist/plan (e.g., receiving teacher briefed, check-in schedule).
+- Post-return monitoring window (e.g., 30/60/90-day check-ins) feeding back into Reporting if issues recur.
+- Case closure requires confirmation of successful reintegration, not just agreement sign-off.
+
+**Acceptance criteria**
+- Case cannot be closed until reintegration confirmation is recorded.
+- A recurrence during the monitoring window links the new report to the prior case for context.
+
+## 5. Cross-Cutting Requirements
+
+- **Single case record**: all stages above operate on one underlying case/student record with full state history (audit trail).
+- **Roles & permissions**: Reporters can create reports but not view all cases; Link Managers see their caseload; Triage Reviewers see the queue; Admins configure SLAs/templates.
+- **Notifications**: email/in-app alerts for assignment, deadlines, triage decisions, agreement sign-off, reintegration check-ins.
+- **Reporting/analytics**: dashboard of SLA compliance, case volume by stage, reintegration success rate.
+- **Data sensitivity**: student behavioural and agreement data is sensitive — access must be role-restricted and logged.
+
+## 6. Out of Scope (initial release)
+
+- Parent/guardian self-service portal (future consideration).
+- Multi-school/district-level rollups.
+- Automated intervention recommendation (AI-assisted) — manual selection only for v1.
+
+## 7. Open Questions
+
+- What defines report/case "severity" for SLA rule selection?
+- Who can override a breached SLA, and is a reason required?
+- Are digital signatures on the Contractual Agreement legally binding, or is acknowledgement sufficient?
+- What is the default reintegration monitoring window (30/60/90 days) — configurable per case?
+
+## 8. Suggested Phasing
+
+1. **Phase 1 — Foundation**: Link Managers, Reporting, case data model.
+2. **Phase 2 — Accountability**: Alert Status/SLA engine, Triage queue.
+3. **Phase 3 — Intervention**: Intervention Pathway tracking, Contractual Agreement generation & sign-off.
+4. **Phase 4 — Closure loop**: Return & Reintegration tracking, recurrence linking, analytics dashboard.
