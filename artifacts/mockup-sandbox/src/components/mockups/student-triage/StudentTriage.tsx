@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, BookOpen, CalendarDays, Check, ClipboardList, Clock3, FileText, Filter, HeartHandshake, Info, LayoutList, Plus, Search, ShieldCheck, UserRound, UsersRound, X } from 'lucide-react';
 import './StudentTriage.css';
+import { CommunicationPassport, demoPassport, type Passport } from './_CommunicationPassport';
 
 type Alert = 'On Track' | 'Due Soon' | 'Breached';
 type Tab = 'Overview' | 'Report' | 'Triage' | 'Intervention' | 'Agreement' | 'Reintegration' | 'History';
 type Action = { id: number; text: string; owner: string; due: string; done: boolean };
 type Case = {
+  passport?: Passport;
   id: string; name: string; year: string; form: string; manager: string; status: Alert; stage: number; deadline: string;
   concern: string; context: string; voice: string; reporter: string; reported: string; decision: string; rationale: string;
   actions: Action[]; acknowledgements: Record<string, boolean>; checklist: Record<string, boolean>; history: string[]; closed?: boolean;
@@ -27,7 +29,7 @@ const parties = ['School','Student','Family'];
 const alertClass = (status: Alert) => status === 'On Track' ? 'track' : status === 'Due Soon' ? 'soon' : 'breached';
 
 export function StudentTriage() {
-  const [cases, setCases] = useState<Case[]>(initialCases);
+  const [cases, setCases] = useState<Case[]>(() => initialCases.map(c => c.id === 'ST-2048' ? { ...c, passport: demoPassport } : c));
   const [selectedId, setSelectedId] = useState('ST-2048');
   const [tab, setTab] = useState<Tab>('Overview');
   const [query, setQuery] = useState('');
@@ -121,10 +123,12 @@ export function StudentTriage() {
               <div className="triage-detail-head">
                 <div className="triage-detail-top"><div><p className="triage-eyebrow" style={{marginBottom:5}}>CASE {selected.id} / {selected.year}</p><h2>{selected.name}</h2><p className="triage-case-meta">{selected.form} · {selected.concern}</p></div><div className="triage-detail-actions"><button className="triage-secondary" onClick={()=>{setNewManager(selected.manager);setModal('manager');}}><UserRound size={13}/> Reassign</button><button className="triage-secondary" onClick={()=>setModal('summary')}><FileText size={13}/> Case summary</button></div></div>
                 <div className="triage-detail-status"><span className={`triage-badge ${alertClass(selected.status)}`}><span className="triage-dot"/>{selected.status}</span><span><strong>Next deadline</strong> · {selected.deadline}</span><span className="triage-separator"/><span><strong>Link Manager</strong> · {selected.manager}</span>{selected.closed && <span className="triage-badge track">Reintegrated</span>}</div>
+                <button className="triage-secondary" style={{ marginTop: 12 }} onClick={()=>setTab('Overview')}><BookOpen size={14}/>{selected.passport ? 'Communication Passport available' : 'Communication Passport · not recorded'}</button>
               </div>
               <div className="triage-tabs" role="tablist">{tabs.map(t=><button role="tab" aria-selected={tab===t} key={t} className={tab===t?'active':''} onClick={()=>setTab(t)}>{t}</button>)}</div>
               <div className="triage-tab-content">
                 {tab === 'Overview' && <>
+                  <CommunicationPassport key={selected.id} passport={selected.passport} manager={selected.manager}/>
                   <h3 className="triage-section-title">A pathway back to belonging</h3><p className="triage-section-sub">Seven connected stages. Select a stage to see what has happened and what comes next.</p>
                   <div className="triage-pathway">{stages.map((s,i)=><button key={s} className={`triage-step ${i+1<selected.stage?'done':''} ${i+1===selected.stage?'current':''}`} onClick={()=>setTab(stageTabs[i])}><span className="triage-step-number">{i+1<selected.stage?'✓':String(i+1).padStart(2,'0')}</span><span className="triage-step-label">{s}</span></button>)}</div>
                   <div className="triage-two-col"><div className="triage-info-box"><p className="triage-box-eyebrow">The student perspective</p><h3>What we have heard</h3><p>{selected.voice}</p><div className="triage-box-footer"><span>From reflective report</span><button className="triage-text-button" onClick={()=>setTab('Report')}>Read report <ArrowRight size={11} style={{display:'inline'}}/></button></div></div><div className="triage-info-box important"><p className="triage-box-eyebrow">Next meaningful step</p><h3>{selected.stage<=3?'Record a multidisciplinary decision':selected.stage===4?'Agree the support actions':selected.stage===5?'Gather acknowledgements':'Prepare a supported return'}</h3><p>{selected.stage<=3?'Review context and record a rationale before moving forward.':selected.stage===4?'Give each action a person and a date so the plan can be followed through.':selected.stage===5?'School, student and family should each understand the shared plan.':'Brief the receiving teacher and agree a check-in rhythm with the student.'}</p><div className="triage-box-footer"><span>{selected.decision}</span><button className="triage-text-button" onClick={()=>setTab(selected.stage<=3?'Triage':selected.stage===4?'Intervention':selected.stage===5?'Agreement':'Reintegration')}>Open stage <ArrowRight size={11} style={{display:'inline'}}/></button></div></div></div>
