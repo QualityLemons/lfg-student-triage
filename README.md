@@ -1,5 +1,24 @@
 # LFG Student Triage (standalone browser demo)
 
+## GitHub Pages
+
+The standalone frontend can be hosted on GitHub Pages. The API server and canvas development environment cannot run there; they can remain in this repository as source. The frontend currently works without them.
+
+For this repository's project site, build from the repository root:
+
+```sh
+corepack enable
+corepack prepare pnpm@10.26.1 --activate
+pnpm install --frozen-lockfile
+PORT=4173 BASE_PATH=/lfg-student-triage/ pnpm --filter @workspace/student-triage run build
+```
+
+Publish only `artifacts/student-triage/dist/public` using GitHub Pages, not the repository root. In a GitHub Actions Pages workflow, use Node.js 22, run the commands above, upload that directory with `actions/upload-pages-artifact`, and deploy it with `actions/deploy-pages`. The workflow needs `contents: read`, `pages: write` and `id-token: write` permissions and the `github-pages` environment. Enable **Settings → Pages → Source: GitHub Actions** after adding the workflow.
+
+Use `BASE_PATH=/` instead for a user/organisation site or a custom domain served at its root. Case links use query parameters, so they do not require server-side route rewrites.
+
+Hosting does not add authentication, shared records or secure storage. Use fictional data only. Browser data on a GitHub Pages origin is separate from the Replit preview and is not migrated by uploading the project. Do not put secrets or real student information in the repository.
+
 The web app in `artifacts/student-triage` is a fictional, standalone React/Vite demonstration of the approved student-triage workflow. It needs no login, API server or database. From the workspace root, use `pnpm --filter @workspace/student-triage typecheck` to check types, or run the web artifact through the normal project workflow. For focused persistence checks, run `cd artifacts/student-triage && node --experimental-strip-types --test src/components/student-triage/case-storage.test.mjs` (Node 22+).
 
 **Do not enter real student data.** The sample names, records, attendance marks, handovers, DSL actions and acknowledgements are fictional. Recording an item does not contact anyone, authenticate a user, confirm a handover or send a referral or notification. The safeguarding help panel has no configured school DSL phone/email; use the school's actual safeguarding procedures and contact list, or UK emergency services in immediate danger.
