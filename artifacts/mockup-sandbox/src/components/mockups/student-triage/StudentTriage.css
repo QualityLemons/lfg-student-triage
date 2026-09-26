@@ -43,6 +43,22 @@
 .triage-profile { border-top: 1px solid #4d7067; padding: 17px 5px 0; display: flex; align-items: center; gap: 10px; color: #f4f4e9; }
 .triage-avatar { flex: 0 0 auto; display: inline-grid; place-items: center; height: 31px; width: 31px; border-radius: 50%; background: #d6e1d4; color: #30504b; font-size: 11px; font-weight: 700; }
 .triage-profile small { display:block; color: #abc6b9; font-size: 10px; }
+/* Safeguarding contact lives in the persistent left ribbon, not over case content. */
+.triage-root .triage-sidebar { position: sticky; top: 0; height: 100dvh; }
+.triage-root .triage-sidebar .safeguarding-help-trigger {
+  position: static;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  min-height: 49px;
+  padding: 11px 12px;
+  border-radius: 9px;
+  justify-content: flex-start;
+  text-align: left;
+  white-space: nowrap;
+  box-shadow: none;
+}
+.triage-root .triage-sidebar .safeguarding-help-trigger svg { flex: 0 0 auto; }
 .triage-main { min-width: 0; }
 .triage-topbar { height: 62px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; gap: 16px; background: #f9f8f2; }
 .triage-breadcrumb { color: var(--muted); font-size: 11px; }
@@ -168,5 +184,13 @@
 .triage-guidance-body a:hover { color:#183e39; }
 .triage-toast { position:fixed; z-index:120; right:24px; bottom:24px; background:#254e49; color:#fbfaf2; border-radius:8px; padding:12px 16px; box-shadow:0 12px 30px #15312d33; font-size:12px; max-width:340px; }
 @media (max-width: 1120px) { .triage-shell { grid-template-columns: 66px minmax(0,1fr); } .triage-sidebar { padding:23px 10px; align-items:center; } .triage-brand { padding:0; } .triage-brand div:last-child, .triage-side-label, .triage-nav button span, .triage-nav button .nav-copy, .triage-side-note, .triage-profile div:last-child { display:none; } .triage-nav { width:100%; } .triage-nav button { justify-content:center; padding:12px 0; } .triage-profile { padding:15px 0 0; } .triage-workspace { grid-template-columns: minmax(260px,.85fr) minmax(460px,1.4fr); } }
+@media (min-width: 601px) and (max-width: 1120px) {
+  .triage-root .triage-sidebar .safeguarding-help-trigger { width: 46px; height: 46px; overflow: hidden; font-size: 0; padding: 0; justify-content: center; }
+  .triage-root .triage-sidebar .safeguarding-help-trigger svg { width: 20px; height: 20px; }
+}
 @media (max-width: 900px) { .triage-workspace { grid-template-columns:1fr; } .triage-content { padding:24px 20px 40px; } .triage-stats { grid-template-columns:repeat(2,1fr); } .triage-case-list { max-height:290px; overflow:auto; } }
 @media (max-width: 600px) { .triage-shell { display:block; } .triage-sidebar { height:56px; flex-direction:row; justify-content:space-between; padding:9px 16px; } .triage-brand div:last-child { display:block; } .triage-brand strong { font-size:21px; } .triage-brand small { display:none; } .triage-nav { display:flex; width:auto; } .triage-nav button { width:34px; padding:7px; } .triage-sidebar > div:nth-child(2), .triage-profile { display:none; } .triage-topbar { padding:0 16px; height:49px; } .triage-topright > span:last-child { display:none; } .triage-content { padding:23px 13px 40px; } .triage-titlebar { align-items:flex-start; } .triage-titlebar h1 { font-size:34px; } .triage-subtitle { max-width:260px; } .triage-titlebar .triage-primary { padding:9px; font-size:0; } .triage-titlebar .triage-primary svg { width:17px; height:17px; } .triage-stats { gap:6px; } .triage-stat { padding:10px; min-height:65px; } .triage-stat-value { font-size:26px; } .triage-detail-head, .triage-tab-content { padding-left:14px; padding-right:14px; } .triage-detail-head h2 { font-size:29px; } .triage-detail-top { flex-direction:column; } .triage-pathway { overflow-x:auto; grid-template-columns:repeat(7,75px); padding-bottom:4px; } .triage-two-col, .triage-field-grid { grid-template-columns:1fr; } .triage-modal-body { padding:16px; } }
+@media (max-width: 600px) {
+  .triage-root .triage-sidebar { height: 60px; z-index: 30; }
+  .triage-root .triage-sidebar .safeguarding-help-trigger { width: auto; min-height: 40px; padding: 8px 11px; font-size: 12px; border-radius: 8px; }
+}

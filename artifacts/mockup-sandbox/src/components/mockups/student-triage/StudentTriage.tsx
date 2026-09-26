@@ -224,6 +224,7 @@ export function StudentTriage() {
           <button className={tab === 'Report' ? 'active':''} onClick={()=>nav('Reports')}><FileText size={16}/><span className="nav-copy">Reports</span></button>
           <button className={tab === 'Intervention' ? 'active':''} onClick={()=>nav('Pathway')}><HeartHandshake size={16}/><span className="nav-copy">Support plans</span></button>
         </div></div>
+        <SafeguardingHelp/>
         <div className="triage-side-note"><ShieldCheck size={17}/><strong>Care, with continuity.</strong>One record follows each student from first concern through a supported return to class.</div>
         <div className="triage-profile"><span className="triage-avatar">AP</span><div><strong>Amira Patel</strong><small>Link Manager · demo view</small></div></div>
       </aside>
@@ -293,6 +294,5 @@ export function StudentTriage() {
       {modal==='summary' && <><div className="triage-modal-body"><div className="triage-notice">On-screen text preview only. Not an exported report, official record or shareable document.</div><div className="triage-info-box"><p className="triage-box-eyebrow">{selected.id} · {selected.year} · {selected.form}</p><h3>{selected.name}</h3><p>Link Manager: {selected.manager}<br/>Reported by: {selected.reporter} · {selected.reported}<br/>Deadline: {selected.deadline} ({selected.status})</p></div><div className="triage-info-box"><p className="triage-box-eyebrow">Context and response</p><h3>{selected.concern}</h3><p>{selected.context}<br/><br/>Student voice: {selected.voice}<br/><br/>Triage: {selected.decision}{selected.rationale?` — ${selected.rationale}`:''}<br/>Support actions: {selected.actions.length ? selected.actions.map(a=>a.text).join('; ') : 'Not yet defined'}</p></div></div><div className="triage-modal-foot"><button className="triage-primary" onClick={()=>setModal(null)}>Done</button></div></>}
     </div></div>}
     {toast && <div className="triage-toast" role="status">{toast}</div>}
-    <SafeguardingHelp/>
   </div>;
 }

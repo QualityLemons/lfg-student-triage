@@ -93,6 +93,12 @@ export function AttendanceMapping({
   const late = marks.filter(m => m === 'late').length;
   const authorised = marks.filter(m => m === 'authorised').length;
   const toCheck = marks.filter(m => m === 'unexplained' || m === 'pending').length;
+  // Every weekday cell represents an expected session in this mock four-week
+  // timetable. A blank mark stays provisional; it is not silently removed
+  // from the denominator or treated as attended/absent.
+  const possibleSessions = marks.length;
+  const missingMarks = marks.filter(m => m === 'pending').length;
+  const attendanceRate = possibleSessions ? (attended / possibleSessions) * 100 : null;
 
   return <section className="attendance-map" aria-label={`Attendance mapping for ${studentName}`}>
     <div className="attendance-map-header">
@@ -104,7 +110,8 @@ export function AttendanceMapping({
       <span className="attendance-map-pill"><CalendarDays size={12} aria-hidden="true"/> 4-week view</span>
     </div>
     <div className="attendance-map-stats" aria-label="Four-week attendance summary">
-      <div className="attendance-map-stat"><strong>{attended}<span aria-hidden="true"> / 20</span></strong><span>Days attended, including late</span></div>
+      <div className="attendance-map-stat attendance-map-rate"><strong>{attendanceRate === null ? '—' : `${attendanceRate.toFixed(1)}%`}</strong><span>Illustrative rate · {attended}/{possibleSessions} expected sessions attended, including late{missingMarks ? ' · provisional: mark to verify' : ''}</span></div>
+      <div className="attendance-map-stat"><strong>{attended}<span aria-hidden="true"> / {possibleSessions}</span></strong><span>Sessions attended, including late</span></div>
       <div className="attendance-map-stat"><strong>{late}</strong><span>Late days</span></div>
       <div className="attendance-map-stat"><strong>{authorised}</strong><span>Authorised absence days</span></div>
       <div className="attendance-map-stat"><strong>{toCheck}</strong><span>Marks to verify</span></div>
@@ -128,7 +135,16 @@ export function AttendanceMapping({
         <li>Speak with the student and relevant adults before connecting attendance to a reported concern.</li>
         <li>Record support and follow-up separately; an attendance mark is not a safeguarding judgement or an intervention decision.</li>
       </ul>
-      <p>This view uses fictional day-level sample marks for design exploration. It does not calculate statutory attendance, persistent absence, or an SLA.</p>
+      <div className="attendance-policy">
+        <strong>Policy context · DfE (England)</strong>
+        <p>DfE attendance rates use sessions attended as a share of possible sessions recorded in school MIS data. DfE reporting defines persistent absence as missing 10% or more of sessions and severe absence as 50% or more. This short illustration cannot establish either official year-to-date status.</p>
+        <p>Possible sessions are sessions the pupil attended or was expected to attend; sessions they were not expected to attend are excluded. Here, all 20 weekday cells represent expected sample sessions. A blank mark stays in the denominator, but makes the rate provisional until the register is checked.</p>
+        <div className="attendance-policy-links">
+          <a href="https://www.gov.uk/government/publications/monitor-your-school-attendance-user-guide/monitor-your-school-attendance-user-guide" target="_blank" rel="noopener noreferrer">DfE · Monitor your school attendance user guide</a>
+          <a href="https://www.gov.uk/government/publications/working-together-to-improve-school-attendance" target="_blank" rel="noopener noreferrer">DfE · Working together to improve school attendance</a>
+        </div>
+      </div>
+      <p>This view uses fictional day-level sample marks for design exploration. It does not calculate official academic-year attendance, persistent or severe absence, penalty thresholds, or an SLA.</p>
     </div>}
     {!expanded && onExplore && <button type="button" className="attendance-map-link" onClick={onExplore}>Explore attendance context <ArrowRight size={12} style={{ display: 'inline', verticalAlign: 'middle' }}/></button>}
     <p className="attendance-map-footer">Fictional data only. Unexplained and missing marks are prompts to verify, not conclusions about the student.</p>

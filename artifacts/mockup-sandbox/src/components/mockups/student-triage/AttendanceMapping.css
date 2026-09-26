@@ -20,6 +20,11 @@
 .attendance-map-stat { background: #fbfcf7; border: 1px solid #d7e1d8; border-radius: 6px; padding: 8px 10px; min-width: 95px; }
 .attendance-map-stat strong { font-size: 16px; font-family: 'DM Sans', sans-serif; line-height: 1; }
 .attendance-map-stat span { display: block; margin-top: 3px; color: var(--am-muted); font-size: 9px; }
+.attendance-map-stat.attendance-map-rate { min-width: 155px; background: #255e58; border-color: #255e58; }
+.attendance-map-stat.attendance-map-rate strong,
+.attendance-map-stat.attendance-map-rate span { color: #fffdf7; }
+.attendance-map-stat.attendance-map-rate strong { font-size: 22px; }
+.attendance-map-stat.attendance-map-rate span { max-width: 190px; line-height: 1.45; }
 .attendance-map-grid { display: grid; gap: 5px; }
 .attendance-map-week { display: grid; grid-template-columns: minmax(65px, 88px) repeat(5, minmax(0, 1fr)); gap: 5px; align-items: center; }
 .attendance-map-week-label { color: var(--am-muted); font-size: 10px; }
@@ -46,6 +51,12 @@
 .attendance-map-detail h4 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 20px; margin: 0 0 6px; }
 .attendance-map-detail p { margin: 0 0 9px; color: #48605a; font-size: 11px; line-height: 1.6; }
 .attendance-map-detail ul { margin: 0 0 5px; padding-left: 18px; color: #48605a; font-size: 11px; line-height: 1.8; }
+.attendance-policy { margin: 14px 0 11px; padding: 12px 14px; border-left: 3px solid #b68a49; background: #f7f1e4; color: #435650; }
+.attendance-policy > strong { display: block; margin-bottom: 5px; color: #255e58; font-size: 11px; }
+.attendance-policy p { margin: 5px 0; font-size: 10px; line-height: 1.6; }
+.attendance-policy-links { display: flex; flex-wrap: wrap; gap: 8px 17px; margin-top: 9px; }
+.attendance-policy-links a { color: #255e58; font-size: 10px; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.attendance-policy-links a:focus-visible { outline: 2px solid #326a60; outline-offset: 2px; }
 .attendance-map-link { color: var(--am-teal); font-weight: 700; border: 0; background: transparent; padding: 10px 0 0; cursor: pointer; font-size: 11px; text-decoration: underline; text-underline-offset: 3px; }
 .attendance-map-link:hover { color: #133d39; }
 .attendance-map-link:focus-visible { outline: 2px solid #326a60; outline-offset: 3px; }
